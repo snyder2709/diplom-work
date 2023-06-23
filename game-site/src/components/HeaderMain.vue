@@ -15,7 +15,7 @@ import { RouterLink } from 'vue-router'
 const linkRoutes = reactive([
         { title: "Жанры", class: "link", link: "genre" },
         { title: "Новинки", class: "link", link: "new" },
-        { title: "Предложение", class: "link", link: "" },
+        { title: "Предложение", class: "link", link: "/" },
         { title: "Новости", class: "link", link: "news" },
       ])
 

@@ -7,7 +7,7 @@
     <template v-if="!isAppRoute">
         <swiper-container  navigation="true">
             <swiper-slide class="slide" v-for="(game, index ) of bannerData" :key="index">
-                <router-link class="head-link" :to="`app/${game.steam_appid}`">
+                <router-link class="head-link" :to="`/app/${game.steam_appid}`">
                     <div class="background-raw">
                         <img :src="game.background_raw" @error="(e) => e.target.src = game.background">
                     </div>
@@ -46,7 +46,7 @@ const bannerData = computed(() => store.getters.getDataBanner);
 const isAppRoute = ref(false)
 
 watchEffect(() => {
-    if (route.path.includes('app/')) {
+    if (route.path.includes('app')) {
         isAppRoute.value = true
     }
     else {

@@ -6,8 +6,8 @@
                             <button :disabled="!steamApp.is_free">
                                 <span>add</span>
                             </button>
-                            <div class="glasses-block">
-                                <span v-if="steamApp.price_overview?.discount_percent" class="discount-percent">{{ steamApp.price_overview.discount_percent }}%</span>
+                            <div v-if="!steamApp.is_free" class="glasses-block">
+                                <span v-if="steamApp.price_overview.discount_percent" class="discount-percent">{{ steamApp.price_overview.discount_percent }}%</span>
                                 <div class="price glasses-block">
                                     <div v-if="steamApp.price_overview.discount_percent" class="initial-price">
                                         <span class="old-price">

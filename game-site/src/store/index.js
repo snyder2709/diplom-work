@@ -5,6 +5,7 @@ import login from './modules/login'
 import logout from './modules/logout'
 import headBannerState from './modules/headBannerState'
 import app from './modules/app'
+import search from './modules/search'
 
 export const store =  createStore({
   modules: {
@@ -13,6 +14,7 @@ export const store =  createStore({
     login,
     logout,
     headBannerState,
-    app
+    app,
+    search
   },
 })
