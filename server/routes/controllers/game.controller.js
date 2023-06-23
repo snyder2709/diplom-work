@@ -71,7 +71,8 @@ exports.getFeaturedCategories = async (req, res) => {
     const query = req.query.q
     try{
       const search = await searchByName(query)
-      res.send(search)
+      const searchSourceField = search.map(item => item._source) 
+      res.send(searchSourceField)
     }
     catch (error) {
       console.error(error.message);
