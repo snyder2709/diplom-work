@@ -1,0 +1,8 @@
+{
+    "steam-key":"17865F00A285491C7891FB5A080F71B9",
+    "secretKey":"mycode",
+    "serverPort":3000,
+    "usernameElastic":"elastic",
+    "passwordElastic":"WahbnsQa9fkE-+tmMqkt",
+    "UsersdbURL":"mongodb+srv://guygetting:a9y9v4u21DrS4Cag@cluster0.pnkiazm.mongodb.net/gameApi?retryWrites=true&w=majority"
+}

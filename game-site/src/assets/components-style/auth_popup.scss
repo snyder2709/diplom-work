@@ -1,0 +1,26 @@
+@import '@/assets/main.scss';
+.auth-popup{
+    z-index: 100;
+    @include center-align-row;
+    align-items: start;
+    width: 100vw;
+    height: 100vh;
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.5s;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(0);
+}
+
+.slide-enter-to,
+.slide-leave {
+  transform: translateX(-100%);
+}
+
+.invalid {
+  border: red 1px;
+}

@@ -1,0 +1,27 @@
+.grid{
+    display: grid; 
+    max-width: 1400px;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+.grid-2fr{
+    display: inherit;
+    grid-template-columns: repeat(2,  minmax(0px, 1fr));
+    grid-column-gap: 10px;
+}
+.grid-3fr{
+    display: inherit;
+    grid-column-gap: 10px;
+    grid-template-columns: repeat(3, minmax(0px, 1fr));
+}
+.grid-4fr{
+    display: inherit;
+    grid-column-gap: 10px;
+    grid-template-columns: repeat(4, minmax(0px, 1fr));
+}
+.grid-5fr{
+    display: inherit;
+    grid-column-gap: 10px;
+    grid-template-columns: repeat(5, minmax(0px, 1fr));
+}
+

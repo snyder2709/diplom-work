@@ -1,0 +1,74 @@
+@import '@/assets/main.scss';
+.header-image {
+    width: 460px;
+    @include center-align-col;
+    gap: 10px;
+    height: max-content;
+    .discount-percent {
+        background-color: black;
+        padding: 4px;
+        border-radius: 4px;
+        top: 12%;
+        right: 2.5%;
+    }
+    .price {
+            display: flex;
+            gap: 7px;
+            border-radius: 4px;
+            text-shadow: 1px 1px 9px rgba(0, 0, 0, .6666666667);
+            background-color: rgb(2 2 2 / 53%);
+            width: max-content;
+          
+            .old-price {
+            position: relative;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                border-top: 2px solid red;
+                transform: rotate(-10deg);
+            }
+
+        }
+        }
+
+    img {
+        object-fit: contain;
+    }
+
+    .sub-header {
+        width: 100%;
+        display: flex;
+        @include center-align-row;
+        .sub-inner{
+            @include center-align-row;
+            width: 100%;
+            gap: 8px;
+            padding: 4px 10px;
+            .glasses-block{
+                padding: 5px ;
+            }
+        }
+        button {
+            @include center-align-row;
+            padding: 10px;
+            width: 40%;
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: white;
+            border-radius: 4px;
+            transition: all 0.5s ease;
+            background-image: linear-gradient(to right, #599603 15%, #3c6d01 90%);
+            background-size: 200%;
+
+            &:hover {
+                background-position-x: -120%;
+            }
+        }
+    }
+
+}
+

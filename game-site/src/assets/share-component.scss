@@ -1,0 +1,14 @@
+@import './main.scss';
+.button-buy {
+    min-width: 90px;
+    width: 20%;
+    height: 4vh;
+    background: #228B22;
+    border-radius: 7px;
+}
+.button-add {
+    width: 120px;
+    height: 3vh;
+    border: 1px solid red;
+    background: orange;
+}
