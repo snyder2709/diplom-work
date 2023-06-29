@@ -7,12 +7,6 @@ import CardApp from '../components/card/CardApp.vue';
 import PromoCard from '../components/card/PromoCard.vue';
 import AnimatedPlaseholder from '../componentUI/AnimatedPlaseholder.vue';
 
-const {featuredCatItems} = defineProps({
-  featuredCatItems:{
-    type:Object,
-    requared:true
-  }
-})
 
 const store = useStore();
 let load = ref(false);

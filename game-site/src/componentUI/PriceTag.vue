@@ -6,10 +6,10 @@
         <div  class="price glasses-block">
             <div v-if ="priceOverview?.discount_percent || discounted" class="initial-price">
                 <span class="old-price">
-                    {{ priceOverview?.initial_formatted || numberFormat(originalPrice) + "\ &#8376;"}} 
+                    {{ priceOverview?.initial_formatted || numberFormat(originalPrice)}} 
                 </span>
             </div>
-            <span>{{priceOverview?.final_formatted || numberFormat(finalPrice) + '\ &#8376;' }} </span>
+            <span>{{priceOverview?.final_formatted ||  numberFormat(finalPrice) }} </span>
         </div>
     </div>
 </template>
@@ -26,14 +26,11 @@ const { priceOverview,discounted,discountPercent,originalPrice,finalPrice} = def
         finalPrice: { type: Number }
     }
 )
-const numberFormat = computed((price) =>{
+const numberFormat = (price) => {
     let shortedPrice = price/100;
-    let thousandth = shortedPrice.toString()
-    thousandth =  thousandth.slice(0,-3)
-    let other = shortedPrice.toString().slice(-3,shortedPrice.length) 
-    return thousandth + " " +  other
-
-})
+   const formattedPrice = new Intl.NumberFormat('kk-KZ',{style:'currency',currency:"KZT",minimumFractionDigits: 0,}).format(shortedPrice)
+  return formattedPrice;
+}
 </script>
 
 <style lang="scss" scoped>

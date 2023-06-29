@@ -53,6 +53,9 @@ watchEffect(() => {
         isAppRoute.value = false
     }
 });
+onMounted( async ()=>{
+    await store.dispatch('getTopGameForBanner')
+})
 
 </script>
   

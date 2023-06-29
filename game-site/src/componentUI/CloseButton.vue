@@ -16,8 +16,10 @@ const { text } = defineProps({
 </script>
 
 <style lang="scss" scoped>
+
 .outer {
     position: absolute;
+    z-index: 4;
     right: 10px;
     top: 10px;
     margin: auto;
