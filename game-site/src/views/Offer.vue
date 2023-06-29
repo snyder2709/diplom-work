@@ -3,9 +3,16 @@ import { onMounted , computed,ref } from 'vue';
 
 import { useStore } from 'vuex';
 import OfferSection from '../components/OfferSection.vue';
-import CardOffer from '../components/card/CardOffer.vue';
+import CardApp from '../components/card/CardApp.vue';
 import PromoCard from '../components/card/PromoCard.vue';
 import AnimatedPlaseholder from '../componentUI/AnimatedPlaseholder.vue';
+
+const {featuredCatItems} = defineProps({
+  featuredCatItems:{
+    type:Object,
+    requared:true
+  }
+})
 
 const store = useStore();
 let load = ref(false);
@@ -40,43 +47,49 @@ onMounted(async () => {
 
 <template>
   <div class="page">
-    <h2>ТОП ПРОДАЖ</h2>
-    <div  class="offer">
-      <OfferSection v-if="load">
-      <template   v-for="slice in slices(getFeaturedCatItems.topSellers)" #[slice.slotName]>
-        <CardOffer
-          v-for="topSeller in slice.items"
-          :key="topSeller.id"
-          :img="topSeller.header_image"
-          :name="topSeller.name"
-          :id="topSeller.id"
-        />
-      </template>
-      </OfferSection>
-      <OfferSection v-if="!load">
-      <template  v-for="slice in slices(array)" #[slice.slotName]>
-        <AnimatedPlaseholder v-for="items in slice.items"  height="40vh" width="48vw"  />
-      </template>
-    </OfferSection>
-    </div>
-    <h2>В ЦЕНТРЕ ВНИМАНИЯ</h2>
-    <div class="offer">
-        <OfferSection>
-          <PromoCard></PromoCard>
+    <div class="page-wrapper">
+      <h2>ТОП ПРОДАЖ</h2>
+      <div  class="offer">
+        <OfferSection v-if="load">
+        <template   v-for="slice in slices(getFeaturedCatItems.topSellers)" #[slice.slotName]>
+          <CardApp
+            v-for="topSeller in slice.items"
+            :key="topSeller.id"
+            :img="topSeller.header_image"
+            :name="topSeller.name"
+            :id="topSeller.id"
+            :discounted="topSeller.discounted"
+            :discountPercent="topSeller.discount_percent"
+            :originalPrice="topSeller.original_price"
+            :finalPrice="topSeller.final_price"
+          />
+        </template>
         </OfferSection>
-    </div>
-    <h2>СКОРО В ПРОДАЖЕ</h2>
-    <div class="offer">
-        <OfferSection>
-          <template v-for="slice in slices(getFeaturedCatItems.comingSoon)" #[slice.slotName]>
-        <CardOffer
-          v-for="comingSoon in slice.items"
-          :key="comingSoon.id"
-          :img="comingSoon.header_image"
-          :name="comingSoon.name"
-        />
-      </template>
-        </OfferSection>>
+        <OfferSection v-if="!load">
+        <template  v-for="slice in slices(array)" #[slice.slotName]>
+          <AnimatedPlaseholder v-for="items in slice.items"  height="40vh" width="48vw"  />
+        </template>
+      </OfferSection>
+      </div>
+      <h2>В ЦЕНТРЕ ВНИМАНИЯ</h2>
+      <div class="offer">
+          <OfferSection>
+            <PromoCard></PromoCard>
+          </OfferSection>
+      </div>
+      <h2>СКОРО В ПРОДАЖЕ</h2>
+      <div class="offer">
+          <OfferSection>
+            <template v-for="slice in slices(getFeaturedCatItems.comingSoon)" #[slice.slotName]>
+          <CardApp
+            v-for="comingSoon in slice.items"
+            :key="comingSoon.id"
+            :img="comingSoon.header_image"
+            :name="comingSoon.name"
+          />
+        </template>
+          </OfferSection>
+      </div>
     </div>
     
   </div>

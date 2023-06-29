@@ -1,9 +1,13 @@
 <template>
     <div class="search">
-        <font-awesome-icon icon="fa-magnifying-glass" class="icon" @click="openInput" />
-        <Transition name="slide">
-            <input type="text" name="search" id="search" v-model="searchTherm" @blur="onInputBlur" v-if="isInput">
-        </Transition>
+        
+        <div class="search-input">
+            <Transition name="slide">
+                <input ref="target" type="text" name="search" id="search" v-model="searchTherm" @blur="onInputBlur"  v-if="isInput" placeholder="search">
+            </Transition>
+        </div>
+        <font-awesome-icon icon="fa-magnifying-glass" class="icon" @click="openInput" currentColor="green"/>
+       
 
         <div class="resultList" v-if="resultQuery && isInput">
             <ul v-for="item in resultQuery" :key="item.appid">
@@ -21,14 +25,14 @@ import { useRouter,useRoute } from 'vue-router';
 
 
 const router = useRouter();
-// console.log(router)
+
 const store = useStore();
 const searchTherm = ref('');
 const resultQuery = computed(()=> store.getters['search/getResultQuery'])
 const debounced = useDebounce(searchTherm, 1500)
 const isInput = ref(false);
 const route = useRoute()
-// console.log(route.params.id)
+
 
 const search =  async (dataQuery) => {
     await store.dispatch('search/searchReq',dataQuery);
@@ -65,13 +69,27 @@ const onInputBlur = () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/main.scss';
 .search {
     display: flex;
     position: relative;
+    .search-input{
+        min-width: 200px;
+        input{
+            box-shadow: $shadow-gold-glass-inset;
+            background: $light-background-color;
+            color: white;
+            font:$font-regular;
+            background: transparent;
+            border: none;
+            padding: 0 10px;
+        }
+    }
 
     .icon {
         color: gold;
         transition: all ease-in .2s;
+       padding: 10px 20px;
 
         &:hover {
             color: white;
@@ -81,7 +99,6 @@ const onInputBlur = () => {
     }
 
     .resultList {
-
         z-index: 100;
         background-color: black;
         padding: 10px;

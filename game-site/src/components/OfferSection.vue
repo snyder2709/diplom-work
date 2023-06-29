@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/components-style/card.scss';
+@import '../assets/components-style/offer_section.scss';
 
 .block-offer {
   

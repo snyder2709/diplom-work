@@ -1,8 +1,10 @@
 <template>
   <header>
-    <AuthPopup v-if="isPopup">
-      <button @click="isPopup = !isPopup">Закрыть</button>
+    <transition name="fade">
+    <AuthPopup v-show="isPopup">
+        <closeButtonVue text="CLOSE" @click="isPopup = !isPopup"/>
     </AuthPopup>
+  </transition>
     <div class="error" v-show="error">
 
     </div>
@@ -22,6 +24,7 @@
 <script setup>
 import SearchGs from '../componentUI/SearchGs.vue';
 import AuthPopup from './AuthPopup.vue';
+import closeButtonVue from '@/componentUI/closeButton.vue';
 import { useStore } from 'vuex';
 import { computed, onMounted, ref } from 'vue';
 const { getters, dispatch } = useStore();
@@ -35,8 +38,8 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/main.scss';
-
+@import '@/assets/main.scss';
+@import '@/assets/components-style/transition-class.scss';
 header {
   position: fixed;
   z-index: 2;
@@ -47,9 +50,8 @@ header {
     display: flex;
     flex-wrap: nowrap;
     padding: 10px 20px;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
-
   .login {
     background-color: rgba(0, 128, 0, 0.63);
     padding: 6px 12px;

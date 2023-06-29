@@ -31,9 +31,10 @@ const useAnimatedCubes = (elementRef,startIndex) => {
    
     anime({
       targets: '.tile',
-      scale: [
-        {value: 1, easing: 'easeOutSine', duration: 300},
-        {value: 0, easing: 'easeInOutQuad', duration: 100}
+      boxShadow: [
+        {value: '0px 0px 0px 0px rgba(0, 0, 0, 0)', easing: 'easeOutSine', duration: 100},
+        {value: '5px 5px 10px rgb(255, 255, 255)', easing: 'easeInOutQuad', duration: 300},
+        {value: '0px 0px 0px 0px rgba(0, 0, 0, 0)', easing: 'easeOutSine', duration: 100},
       ],
       begin: function(anim) {
         isComplite.value =  false
