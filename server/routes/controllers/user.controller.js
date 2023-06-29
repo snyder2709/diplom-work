@@ -5,58 +5,61 @@ const steam = new SteamAPI(apiKey);
 const jwt = require('jsonwebtoken');
 const secret = config.get('secretKey');
 const SteamUser = require('steam-user');
-const { request } = require("express");
 const steamUser = new SteamUser();
+const asyncHandler = require("express-async-handler");
+let steamGuardPromise = null;
 
 
-// Функция для ввода кода Steam Guard
-exports.enterSteamGuardCode = async (req, res) => {
-    const  {code} = req.body
-    console.log(code)
-    res.send("Пароль получен")
-    return new Promise(resolve => resolve(code)).catch((e) => {
-        console.log(e.message)
-    })
-};
+exports.enterSteamGuardCode = asyncHandler(async (req, res) => {
+    console.log('МЕНЯ ЗАПУСТИЛО СОБЫТИЕ STEAMGUARD');
+    const code = req.body.code;
+    if (steamGuardPromise) {
+        // Если уже есть активный промис, завершаем его с ошибкой
+        steamGuardPromise.reject(new Error('Новый код SteamGuard был введен'));
+    }
+    steamGuardPromise = createSteamGuardPromise(code); // Создаем новый промис с кодом SteamGuard
+    res.send('Код SteamGuard сохранен');
+});
 
+steamUser.on('steamGuard', async (domain, callback, lastCodeWrong) => {
+    console.log(`Код отправлен на домен ${domain}`);
+    try {
+        const code = await steamGuardPromise; // Ожидаем завершения промиса и получаем код SteamGuard
+        console.log(code);
+        callback(code); // Передаем код SteamGuard
+    } catch (error) {
+        console.log(error);
+        callback(''); // Если произошла ошибка, передаем пустой код SteamGuard
+    }
+});
 
+// Функция для создания промиса с кодом SteamGuard
+function createSteamGuardPromise(code) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(code); // Завершаем промис с кодом SteamGuard
+            steamGuardPromise = null; // Очищаем промис
+        }, 5000); // Установите здесь необходимую задержку для ввода кода на клиенте
+    });
+}
 
-exports.login = async (req, res) => {
-    const { username, password } = req.body;
+exports.logOn = async (req, res) => {
+    const { username, password, } = req.body;
+    let need_code = false;
     try {
         // Вход в Steam с использованием учетных данных пользователя
         steamUser.logOn({
             accountName: username,
             password: password,
-            rememberPassword:false,
-            dontRememberMachine:true
+            rememberPassword: false,
+            dontRememberMachine: true
         });
-        const codeAwait = async (code) =>{ 
-            return new Promise((resolve)=> {
-            if(code){
-                resolve(code)
-            }else{
-                code = null
-            }
-        }).catch(e => console.log(e.message))
-    }
-        let steamIdAwait = new Promise((resolve) => {
-            steamUser.on('loggedOn', async () => {
-                const details = await steamUser.getSteamGuardDetails((request) => request);
-                console.log(details)
-                if (details.isSteamGuardEnabled) {
-                    console.log('Требуется код Steam Guard');
-                    const steamId = steamUser.steamID.getSteamID64();
-                    resolve(steamId);
-                }
-            });
-        }).catch(e => console.log(e.message));
-
-
-        const steamId = await steamIdAwait
-        const accessToken = jwt.sign({ steamId }, secret, { expiresIn: '200d' });
-        res.setHeader('Authorization', `Bearer ${accessToken}`).send( await codeAwait());
-        console.log("аутентефикация прошла держи токен");
+        const details = await steamUser.getSteamGuardDetails((request) => request);
+        console.log(details)
+        if (details.isSteamGuardEnabled) {
+            need_code = true
+        }
+        res.send(need_code)
     }
     catch (err) {
         console.log(err.message)
@@ -68,12 +71,21 @@ exports.login = async (req, res) => {
     }
 };
 
-      steamUser.on('steamGuard', async (domain, callback,lasCodeWrong) => {
-                        console.log(`код отправлен на домен ${domain}`);
-                        let code = await exports.enterSteamGuardCode()
-                         await codeAwait(code) 
-                        callback(code)
-                    });
+
+
+exports.loggedOn = async (req, res) => {
+    let steamIdAwait = new Promise((resolve) => {
+        steamUser.on('loggedOn', async () => {
+            const steamId = steamUser.steamID.getSteamID64();
+            resolve(steamId);
+        });
+    }).catch(e => console.log(e.message));
+
+    const steamId = await steamIdAwait
+    const accessToken = jwt.sign({ steamId }, secret, { expiresIn: '200d' });
+    res.setHeader('Authorization', `Bearer ${accessToken}`).send(steamId);
+}
+
 
 
 
@@ -90,7 +102,7 @@ exports.authorization = async (req, res) => {
 exports.logout = (req, res) => {
     try {
         steamUser.logOff();
-        res.json("ПОльзователь покинул сессию");
+        res.json("Пользователь покинул сессию");
     }
     catch (err) {
         res.status(401).json({ error: 'Ошибка сервера ' });
