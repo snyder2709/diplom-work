@@ -1,23 +1,32 @@
-@import '@/assets/main.scss';
+@import '@/assets/mixin.layout.scss';
 @import '@/assets/mixin.breakpoints.scss';
 
-.card-app-banner {
-    @include center-align-col;
-    width: 280px;
+.cab {
+    height: 100%;
+    width: 25vw;
+    z-index: 2;
+    box-shadow: 17px 0px 57px 100px black;
 
-    @include xl-breakpoint {
-        width: 420px;
+    .cab-inset {
+        padding: 50px 0px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 100%;
+       
+        background: black;
+
     }
 
-    @include center-align-col;
-    gap: 10px;
-    height: max-content;
-
-
     img {
+        width: 100%;
         object-fit: contain;
     }
 
+
+    // @include xl-breakpoint {
+    //     width: 420px;
+    // }
     .sub-header {
         width: 100%;
         @include center-align-row;
@@ -39,7 +48,6 @@
         width: 100%;
         @include center-align-col;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        background-color: #333;
         color: #fff;
         padding: 5px;
 
@@ -58,7 +66,8 @@
                 width: 60%;
                 justify-content: end;
                 flex-wrap: wrap;
-                span{
+
+                span {
                     text-align: end;
                 }
             }

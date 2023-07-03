@@ -34,7 +34,7 @@ const numberFormat = (price) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/main.scss';
+@import '@/assets/mixin.layout.scss';
 
 
 .discount-percent {
@@ -47,7 +47,7 @@ const numberFormat = (price) => {
 }
 .price-wrapper{
     display: flex;
-    padding: 6px
+    padding: 0.2vw;
 }
 .price {
     @include center-align-row;
@@ -58,7 +58,7 @@ const numberFormat = (price) => {
     background-color: rgb(2 2 2 / 53%);
     width: max-content;
     font-weight: 300;
-    font-size: 0.9vw;
+    font-size: 1.3vmin;
 
     .old-price {
         position: relative;

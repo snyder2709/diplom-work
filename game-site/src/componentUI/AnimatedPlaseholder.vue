@@ -35,8 +35,6 @@ defineProps({
 }
 
 .placeholder {
-  height: v-bind(height);
-  width: v-bind(width);
   border-radius: v-bind(borderRadius);
   background-image: linear-gradient(to right,
       #d6d7d8 0%,
@@ -49,5 +47,22 @@ defineProps({
     0 2px 4px -2px rgb(0 0 0 / 0.1);
   animation: bgAnimate 1.2s linear infinite;
 
+}
+.grid-5fr {
+    .placeholder {
+        height: 8vw;
+    }
+}
+
+.grid-3fr {
+    .placeholder{
+        height: 13vw;
+    }
+}
+
+.grid-2fr {
+    .placeholder {
+        height: 20vw;
+    }
 }
 </style>

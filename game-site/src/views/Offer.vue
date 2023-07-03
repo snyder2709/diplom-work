@@ -1,12 +1,81 @@
+
+<template>
+  <MainBanner/>
+  <main class="wrapper">
+    <div class="page">
+      <div class="page-inset">
+        <TitleSection title="TOP SELLING"/>
+        <div  class="offer">
+          <OfferSection v-if="load">
+          <template   v-for="slice in slices(getFeaturedCatItems.topSellers)" #[slice.slotName]>
+            <CardApp
+              v-for="topSeller in slice.items"
+              :key="topSeller.id"
+              :img="topSeller.header_image"
+              :name="topSeller.name"
+              :id="topSeller.id"
+              :discounted="topSeller.discounted"
+              :discountPercent="topSeller.discount_percent"
+              :originalPrice="topSeller.original_price"
+              :finalPrice="topSeller.final_price"
+            />
+          </template>
+          </OfferSection>
+          <OfferSection v-if="!load">
+          <template  v-for="slice in slices(array)" #[slice.slotName]>
+            <AnimatedPlaseholder v-for="items in slice.items" />
+          </template>
+        </OfferSection>
+        </div>
+        <TitleSection title="IN THE SPOTLIGHT"/>
+        <div class="offer">
+            <OfferSection>
+              <PromoCard></PromoCard>
+            </OfferSection>
+        </div>
+        <TitleSection title="COMMING SOON"/>
+        <div class="offer">
+          <swiper-container 
+          class="myThumbs"  
+          grabCursor="true" lazy="true" 
+          slides-per-view="3"
+          :space-between="4" 
+          :scrollbar="{ draggable: true }"
+          navigation="true"
+          >
+          
+              <swiper-slide class="swiper-item" v-for="steamOffer in  getFeaturedCatItems.comingSoon " :key="steamOffer.id">
+                    <CardApp :img="steamOffer.large_capsule_image"/>
+              </swiper-slide>
+          </swiper-container>
+              <template v-for="slice in getFeaturedCatItems.comingSoon">
+            <CardApp
+              v-for="comingSoon in slice.items"
+              :key="comingSoon.id"
+              :img="comingSoon.header_image"
+              :name="comingSoon.name"
+            />
+          </template>
+        </div>
+  
+      </div>
+    </div>
+</main>
+</template>
+
 <script setup>
 import { onMounted , computed,ref } from 'vue';
 
 import { useStore } from 'vuex';
-import OfferSection from '../components/OfferSection.vue';
-import CardApp from '../components/card/CardApp.vue';
-import PromoCard from '../components/card/PromoCard.vue';
-import AnimatedPlaseholder from '../componentUI/AnimatedPlaseholder.vue';
-
+import OfferSection from '@/components/OfferSection.vue';
+import TitleSection from '@/componentUI/TitleSection.vue';
+import CardApp from '@/components/card/CardApp.vue';
+import PromoCard from '@/components/card/PromoCard.vue';
+import AnimatedPlaseholder from '@/componentUI/AnimatedPlaseholder.vue';
+import MainBanner from '@/components/MainBanner.vue';
+import { register } from 'swiper/element/bundle';
+import 'swiper/css/navigation';
+register();
 
 const store = useStore();
 let load = ref(false);
@@ -38,62 +107,23 @@ onMounted(async () => {
   load.value = true
 });
 </script>
-
-<template>
-  <div class="page">
-    <div class="page-wrapper">
-      <h2>ТОП ПРОДАЖ</h2>
-      <div  class="offer">
-        <OfferSection v-if="load">
-        <template   v-for="slice in slices(getFeaturedCatItems.topSellers)" #[slice.slotName]>
-          <CardApp
-            v-for="topSeller in slice.items"
-            :key="topSeller.id"
-            :img="topSeller.header_image"
-            :name="topSeller.name"
-            :id="topSeller.id"
-            :discounted="topSeller.discounted"
-            :discountPercent="topSeller.discount_percent"
-            :originalPrice="topSeller.original_price"
-            :finalPrice="topSeller.final_price"
-          />
-        </template>
-        </OfferSection>
-        <OfferSection v-if="!load">
-        <template  v-for="slice in slices(array)" #[slice.slotName]>
-          <AnimatedPlaseholder v-for="items in slice.items"  height="40vh" width="48vw"  />
-        </template>
-      </OfferSection>
-      </div>
-      <h2>В ЦЕНТРЕ ВНИМАНИЯ</h2>
-      <div class="offer">
-          <OfferSection>
-            <PromoCard></PromoCard>
-          </OfferSection>
-      </div>
-      <h2>СКОРО В ПРОДАЖЕ</h2>
-      <div class="offer">
-          <OfferSection>
-            <template v-for="slice in slices(getFeaturedCatItems.comingSoon)" #[slice.slotName]>
-          <CardApp
-            v-for="comingSoon in slice.items"
-            :key="comingSoon.id"
-            :img="comingSoon.header_image"
-            :name="comingSoon.name"
-          />
-        </template>
-          </OfferSection>
-      </div>
-    </div>
-    
-  </div>
-</template>
 <style lang="scss" scoped >
-@import '../assets/main.scss';
-h2{
-  font-size: 2.5vmin;
-  overflow: hidden;
-  margin: 1vw  0vw 2vw 4vw;
-  color: rgba(255, 255, 255, 0.589);
-}
+@import '@/assets/mixin.breakpoints.scss';
+.myThumbs{
+  height:170px; 
+  @include xl-breakpoint {
+    height:14vw; 
+  }
+
+          .app-img{
+            background-size: contain;
+          }
+} 
+.swiper-item{
+        border-radius: 8px;
+        background-color: black;
+        width: 184px;
+
+       
+    }
 </style>

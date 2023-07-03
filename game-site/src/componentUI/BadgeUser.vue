@@ -32,7 +32,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/main.scss';
+@import '../assets/variable.scss';
 .user-href {
     display: flex;
     margin: 0 1vw;

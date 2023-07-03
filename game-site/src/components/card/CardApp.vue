@@ -29,13 +29,12 @@ defineProps({
     discounted:      { type: Boolean },
     discountPercent: { type: Number },
     originalPrice:   { type: Number },
-    finalPrice:      { type: Number }
-
+    finalPrice:      { type: Number },
 })
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/main.scss';
+@import '@/assets/main.scss';
 @import '@/assets/variable.scss';
 
 .block-card {
@@ -64,47 +63,45 @@ defineProps({
 
     .sub-card {
         display: flex;
+        justify-content: end;
         width: 98%;
         // height: 100%;
         background-color: rgba(255, 255, 255, 0.068);
         backdrop-filter: blur(3px);
         border-radius: 7px;
-        padding: 4px;
+        padding: 0px 4px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.13);
-
-      
-
-        .des-card {
-            width: 50%;
-        }
     }
 
     .app-img {
         display: flex;
         align-items: end;
         justify-content: center;
+        border-radius: inherit;
         width: 100%;
+        height:100%;
         background-color: transparent;
-        background-size: contain;
+        background-size: cover;
         background-repeat: no-repeat;
+        margin-bottom: 4px;
     }
 }
 
 .grid-5fr {
     .app-img {
-        height: 8vw;
+        height: 6vw;
     }
 }
 
 .grid-3fr {
     .app-img {
-        height: 13vw;
+        height: 10vw;
     }
 }
 
 .grid-2fr {
     .app-img {
-        height: 20vw;
+        height: 17vw;
     }
 }
 </style>

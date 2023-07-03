@@ -13,5 +13,4 @@ const { isComplite } = useAnimatedCubes(overlay)
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/main.scss'
 </style>

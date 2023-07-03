@@ -74,10 +74,7 @@ router.beforeEach((to, from, next) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/main.scss';
-
-
-
+@import '@/assets/variable.scss';
 .search {
     display: flex;
     .icon {
@@ -156,8 +153,4 @@ router.beforeEach((to, from, next) => {
     transition: all 0.3s ease-in;
 }
 
-// .slide-leave-from {
-//     width: 100%;
-//     transition: all ease-in .2s;
-// }
 </style>

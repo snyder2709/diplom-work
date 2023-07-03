@@ -1,7 +1,7 @@
 <template>
     <div class="glasses-block auth-popup">
-      <div class="wrapper inset-auth-popup">
-        <slot></slot>
+      <div class="inset-auth-popup">
+        <closeButtonVue text="CLOSE" @click="handlePopup"/>
         <transition name="slide">
           <div class="login">
             <p v-if="entryError">{{ entryError }}</p>
@@ -27,24 +27,29 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import closeButtonVue from '@/componentUI/closeButton.vue';
 
-const store = useStore();
+const { dispatch, commit, getters } = useStore();
 const username = ref('');
 const password = ref('');
 const codeInput = ref('')
 const entryError = ref('');
 const validEmail = ref(false);
 const validPass = ref(false);
-const code = computed(()=> store.getters['login/getGuardCode'])
-console.log(store.getters)
+const code = computed(()=> getters['login/getGuardCode'])
+
+
+const handlePopup = () => {
+  commit('popupState/toggleIsAuthPopup')
+} 
 
 
 async function login() {
   if (username.value !== '' && password.value !== '') {
-    await store.dispatch('login/logOn', { username: username.value, password: password.value });
+    await dispatch('login/logOn', { username: username.value, password: password.value });
     console.log(code)
-    await store.dispatch('login/loggedOn');
-    await store.dispatch('auth/fetchUser');
+    await dispatch('login/loggedOn');
+    await dispatch('auth/fetchUser');
   } else {
     validEmail.value = username.value === '';
     validPass.value = password.value === '';
@@ -53,45 +58,17 @@ async function login() {
 }
 
 async function logOut() {
-  await store.dispatch('logout/logout');
-  store.commit('auth/resetUser');
+  await dispatch('logout/logout');
+  commit('auth/resetUser');
 }
 
 async function enterCode() {
-  await store.dispatch('login/steamGuard', codeInput.value);
+  await dispatch('login/steamGuard', codeInput.value);
 }
 </script>
   
 <style lang="scss" scoped>
+@import '@/assets/mixin.layout.scss';
 @import '@/assets/components-style/auth_popup.scss';
-@import '@/assets/main.scss';
-
-.inset-auth-popup {
-  @include center-align-col;
-  position: relative;
-  width: 50%;
-  height: 50%;
-  border-radius: 20px 20px 20px 20px;
-  margin-top: 2vh;
-
-  .login {
-    @include center-align-col;
-    align-items: start;
-    gap: 10px;
-    width: 60%;
-    height: 80%;
-
-    .entry-button {
-      width: 100%;
-    }
-
-    input {
-      font:$font-regular;
-      padding-left: 10px;
-      width: 100%;
-      height: 30px;
-    }
-  }
-}
 </style>
   

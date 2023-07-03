@@ -18,5 +18,5 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/share-component.scss';
+@import '@/assets/share-component.scss';
 </style>

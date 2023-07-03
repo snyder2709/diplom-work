@@ -2,10 +2,17 @@
     <div class="thumbSlider">
         <div class="innerThumb">
             <div class="swiperMain">
-                <swiper-container v-show="!laptop"  class="innerSwiperMain" thumbs-swiper=".myThumbs" lazy="true">
-                    <swiper-slide class="swiper-item-main" v-for="screenshot in screenshots" :key="screenshot.id">
-                            <img v-show="loadedContent.includes(screenshot.id)" :src="screenshot.path_full" @error="e => e.target.src = screenshot.path_thumbnail" alt="#" loading="lazy" >
-                            <img class="content-placeholder" v-if="!loadedContent.includes(screenshot.id)" :src="blackPlaceholder" alt="#" >
+                <swiper-container
+                effect='fade' 
+                
+                 class="innerSwiperMain" 
+                 thumbs-swiper=".myThumbs"
+                lazy="true" 
+                >
+                    <swiper-slide    class="swiper-item-main" v-for="screenshot in screenshots" :key="screenshot.id">
+                            <div class="img-ms" :style="{backgroundImage:`url(${screenshot.path_full})`}"></div>
+                            <div class="img-ms-placeholder" :style="{backgroundImage:`url(${screenshot.path_full})`}"></div>
+                            <!-- <img class="content-placeholder" v-if="!loadedContent.includes(screenshot.id)" :src="blackPlaceholder" alt="#" > -->
                     </swiper-slide>
                     <swiper-slide class="swiper-item" v-for="movie in movies" :key="movie.id">
                         <video >
@@ -15,11 +22,11 @@
                 </swiper-container>
             </div>
             <div class="swiperThumb">
-                <swiper-container class="myThumbs" :direction="'vertical'" grabCursor="true" lazy="true" slides-per-view="4"
-                    :space-between="2" :scrollbar="{ draggable: true }">
+                <swiper-container ref="slider" class="myThumbs" direction="horizontal" grabCursor="true" lazy="true" slides-per-view="7"
+                    :space-between="5" navigation="true" rewind="true" :scrollbar="{ draggable: true,trackSize:'20px' }">
                     <swiper-slide class="swiper-item" v-for="screenshot in screenshots" :key="screenshot.id">
-                            <img v-show="loadedContent.includes(screenshot.id)" :src="screenshot.path_thumbnail" alt="#" @load="onContentLoad(screenshot.id)"  >
-                            <img class="content-placeholder" v-if="!loadedContent.includes(screenshot.id)" :src="blackPlaceholder" alt="#" >
+                            <img :src="screenshot.path_thumbnail" alt="#"  >
+                            <!-- <img class="content-placeholder" v-if="!loadedContent.includes(screenshot.id)" :src="blackPlaceholder" alt="#" > -->
                     </swiper-slide>
                     <swiper-slide class="swiper-item" v-for="movie in movies" :key="movie.id">
                         <video>
@@ -33,10 +40,11 @@
 </template>
   
 <script setup>
-import { computed, reactive, ref } from 'vue';
+import {  ref } from 'vue';
 import { register } from 'swiper/element/bundle';
 import { useBreakpoints } from '@vueuse/core'
 import 'swiper/css/navigation';
+import 'swiper/scss/effect-fade';
 import blackPlaceholder from '@/assets/img/black-placeholder.jpg'
 
 register();
@@ -44,6 +52,7 @@ register();
 const next = ref(null);
 const prev = ref(null);
 const loadedContent = ref([]);
+const slider = ref(null);
 
 const { screenshots, movies } = defineProps({
     screenshots: {
@@ -71,88 +80,105 @@ const laptop = breakpoints.between('laptop', 'desktop')
 
 </script>
 <style lang="scss">
-@import '@/assets/components-style/headBanner.scss';
+@import '@/assets/components-style/banner.scss';
 @import '@/assets/mixin.breakpoints.scss';
 
 
 
 .thumbSlider {
+    
     display: flex;
-    width: 50%;
+    width: 75vw;
+    height: 100%;
+    background: black;
+}
 
-    @include xxl-breakpoint {
-        width: 45%;
-    }
-
-    @include lg-breakpoint {
-        width: 70%
-    }
+.swiper-scrollbar-horizontal {
+    height: 20px;
 }
 
 .innerThumb {
-    width: 100%;
     display: flex;
-    justify-content: start;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    
+   .innerSwiperMain{
+    width: 100vw;
+   }
     .swiper-item-main{
-        border-radius: 8px;
-        background-color: black;
-    }
-
-    .img{
-        background-color: black;
+        position: relative;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        .img-ms{
+            width: 100%;
+            height: 60vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position-x: 29%;
+            box-shadow: 0px -10px 10px 10px black;
+            
+        }
+        .img-ms-placeholder{
+            position: absolute;
+            z-index: -1;
+            width: 100%;
+            height: 60vh;
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: blur(10px) brightness(90%);
+        }
     }
 
     .swiperMain {
-        img {
-            display: block;
-            object-fit: cover;
-
-        }
-
+        width: 100%;
+        height: 85%;
         video {
             width: 120px;
         }
 
-        img {
-            @include xxl-breakpoint {
-                width: auto;
-            }
+        // img {
+        //     @include xxl-breakpoint {
+        //         width: auto;
+        //     }
 
-            @include xl-breakpoint {
-                max-width: 751px;
-            }
+        //     @include xl-breakpoint {
+        //         max-width: 751px;
+        //     }
 
-            @include lg-breakpoint {
-                max-width: 700px;
-            }
+        //     @include lg-breakpoint {
+        //         max-width: 700px;
+        //     }
 
-            @include md-breakpoint {
-                max-width: 610px;
-            }
+        //     @include md-breakpoint {
+        //         max-width: 610px;
+        //     }
 
-            @include sm-breakpoint {
-                max-width: 451px;
-            }
-        }
+        //     @include sm-breakpoint {
+        //         max-width: 451px;
+        //     }
+        // }
     }
 
     .swiperThumb {
-        height: 100%;
-        overflow: hidden;
-        flex-shrink: 0;
-
-        .swiper-vertical {
+        margin-left: 60px;
+        width: 100%;
+        height: 25%;
+        .swiper-horizontal {
             display: flex;
-            height: 440px;
+            width: 100vw;
+            // height: 440px;
 
             .swiper-item {
-                border-radius: 8px;
+                width: 100%;
+                    height: 100%;
+                // border-radius: 8px;
                 overflow: hidden;
-
                 img {
-                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                    // height: 12vw;
+                    object-fit: contain;
                 }
 
                 video {

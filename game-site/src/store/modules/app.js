@@ -27,6 +27,9 @@ export default {
         updateApp(state, data) {
             state.app = data
         },
+        resetApp(state, data) {
+            state.app = null
+        },
     },
     state: {
         app: null,

@@ -22,6 +22,7 @@ export default {
             try {
                 console.log(code)
                 await axios.post('http://localhost:3000/auth/entercode', { code });
+                console.log('мы в стиме')
             } catch (error) {
                 console.error(error);
             }
@@ -30,7 +31,7 @@ export default {
             const response = await axios.post(
                 'http://localhost:3000/auth/loggedOn'
             );
-            console.log("я почти зашел")
+            console.log("данные получены")
             const token = response.headers['authorization'].split(' ')[1];
             console.log(token);
             Cookies.set('steam-token', token);

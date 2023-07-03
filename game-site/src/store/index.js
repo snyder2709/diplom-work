@@ -6,6 +6,7 @@ import logout from './modules/logout'
 import headBannerState from './modules/headBannerState'
 import app from './modules/app'
 import search from './modules/search'
+import popupState from './modules/popupState'
 
 export const store =  createStore({
   modules: {
@@ -15,6 +16,7 @@ export const store =  createStore({
     logout,
     headBannerState,
     app,
-    search
+    search,
+    popupState
   },
 })
