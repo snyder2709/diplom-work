@@ -7,41 +7,36 @@ const secret = config.get('secretKey');
 const SteamUser = require('steam-user');
 const steamUser = new SteamUser();
 const asyncHandler = require("express-async-handler");
-let steamGuardPromise = null;
+let steamGuardCode = '';
+let timeOut =  setTimeout(()=>{
+},30000)
 
 
-exports.enterSteamGuardCode = asyncHandler(async (req, res) => {
-    console.log('МЕНЯ ЗАПУСТИЛО СОБЫТИЕ STEAMGUARD');
-    const code = req.body.code;
-    if (steamGuardPromise) {
-        // Если уже есть активный промис, завершаем его с ошибкой
-        steamGuardPromise.reject(new Error('Новый код SteamGuard был введен'));
-    }
-    steamGuardPromise = createSteamGuardPromise(code); // Создаем новый промис с кодом SteamGuard
-    res.send('Код SteamGuard сохранен');
-});
-
-steamUser.on('steamGuard', async (domain, callback, lastCodeWrong) => {
-    console.log(`Код отправлен на домен ${domain}`);
-    try {
-        const code = await steamGuardPromise; // Ожидаем завершения промиса и получаем код SteamGuard
-        console.log(code);
-        callback(code); // Передаем код SteamGuard
-    } catch (error) {
-        console.log(error);
-        callback(''); // Если произошла ошибка, передаем пустой код SteamGuard
-    }
-});
-
-// Функция для создания промиса с кодом SteamGuard
-function createSteamGuardPromise(code) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(code); // Завершаем промис с кодом SteamGuard
-            steamGuardPromise = null; // Очищаем промис
-        }, 5000); // Установите здесь необходимую задержку для ввода кода на клиенте
+exports.enterSteamGuardCode =  async ( req, res) => {
+    
+    const codeAwait = new Promise((res,rej)=>{
+        res(req.body.code);
+    })
+    steamUser.on('steamGuard', async (domain, callback, lastCodeWrong) => {
+        console.log(`Код отправлен на домен ${domain}`);
+        need_code = true
+        // res.send(need_code)
+       setTimeout(()=>{
+        },30000)
+        try {
+            let code  = await codeAwait
+            console.log(code)
+            callback(code); // Передаем код SteamGuard
+        } catch (error) {
+            console.log(error);
+            callback(''); // Если произошла ошибка, передаем пустой код SteamGuard
+        }
     });
-}
+
+};
+
+
+
 
 exports.logOn = async (req, res) => {
     const { username, password, } = req.body;
@@ -54,12 +49,7 @@ exports.logOn = async (req, res) => {
             rememberPassword: false,
             dontRememberMachine: true
         });
-        const details = await steamUser.getSteamGuardDetails((request) => request);
-        console.log(details)
-        if (details.isSteamGuardEnabled) {
-            need_code = true
-        }
-        res.send(need_code)
+    
     }
     catch (err) {
         console.log(err.message)

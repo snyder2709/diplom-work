@@ -5,6 +5,7 @@ const cors = require('cors')
 const PORT = config.get('serverPort')
 const gameRoutes = require('./routes/game.routes')
 const authRoutes = require('./routes/auth.routes')
+const newsRoutes = require('./routes/news.routes')
 
 app.use(express.json())
 app.use(cors({
@@ -13,6 +14,7 @@ app.use(cors({
 
 app.use("/gameAPi",gameRoutes)
 app.use("/auth",authRoutes)
+app.use("/news",newsRoutes)
 
 
 
