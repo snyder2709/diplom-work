@@ -11,10 +11,8 @@
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/mixin.layout.scss';
 h3{
-  font-size: 2.2vmin;
-  overflow: hidden;
-  margin: 1vw  0vw 2vw 4vw;
-  color: rgba(255, 255, 255, 0.589);
+ @include font-paragraph;
 }
 </style>

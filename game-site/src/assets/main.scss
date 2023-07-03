@@ -222,21 +222,37 @@ footer{
   display: flex;
   align-items: center;
   flex-direction: column;
+  
   a{
+    width: 100%;
+    text-align: start;
+    font: $font-regular;
     color: rgb(59, 59, 124);
     text-decoration: underline;
   }
   h1,h2,ul{
     line-height: 1.4em;
+    text-align: center;
   }
   p {
     display: flex;
+    width: 100%;
     flex-direction: column;
+    overflow: hidden;
+    img{
+      width: auto;
+    }
+    a{
+      width: 100%;
+      text-align: start;
+      img{
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+   
   }
-  img{
-    align-content: center;
-    width: auto;
-  }
+  
 }
 
 

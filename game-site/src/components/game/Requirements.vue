@@ -2,6 +2,7 @@
     <div class="requirements">
         <div class="title-wrapper" >
             <TitleSection title="System requirement" />
+            <span class="platform">for {{platform}}</span>
         </div>
         <div class="wrapper-requirements">
             <div class="des-requirements" v-html="requirements.minimum"></div>
@@ -38,9 +39,12 @@ import TitleSection from '../../componentUI/TitleSection.vue';
         
     }
     .title-wrapper{
-        width: 90%;
-        border: 1px solid ;
-        
+        width: 100%; 
+        display: flex;
+        .platform{
+            @include font-paragraph;
+            margin: 1vw 0vw 2vw 8px;
+        }
     }
 }
 </style>
