@@ -4,7 +4,7 @@ const app = express();
 const cors = require('cors')
 const PORT = config.get('serverPort')
 const gameRoutes = require('./routes/game.routes')
-const authRoutes = require('./routes/auth.routes')
+const userRoutes = require('./routes/user.routes')
 const newsRoutes = require('./routes/news.routes')
 
 app.use(express.json())
@@ -12,9 +12,9 @@ app.use(cors({
   exposedHeaders: ['Authorization','Referrer-Policy']
 }));
 
-app.use("/gameAPi",gameRoutes)
-app.use("/auth",authRoutes)
-app.use("/news",newsRoutes)
+app.use("/gameAPi",gameRoutes);
+app.use("/user",userRoutes);
+app.use("/news",newsRoutes);
 
 
 
