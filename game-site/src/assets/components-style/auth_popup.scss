@@ -1,5 +1,9 @@
 @import '@/assets/variable.scss';
+@import '@/assets/mixin.breakpoints.scss';
 @import '@/assets/components-style/transition-class.scss';
+label{
+  overflow: hidden;
+}
 .auth-popup{
   position: fixed;
     z-index: 100;
@@ -8,6 +12,23 @@
     justify-content: center;
     width: 100vw;
     height: 100vh;
+    .inset-auth-popup{
+      width: 40vw;
+      height: 40vh;
+      font-size: 1.8vmin;
+      @include xs-breakpoint {
+        height: 30vh;
+        width: 60vw;
+      }
+      @include lg-breakpoint {
+        height: 30vh;
+        width: 60vw;
+      }
+    }
+    .entry-button{
+      width: 80%;
+      font-size: 2.8vmin;
+    }
 }
 .slide-enter-active,
 .slide-leave-active {
@@ -24,8 +45,14 @@
   transform: translateX(-100%);
 }
 
-.invalid {
-  border: red 1px;
+.invalid::after  {
+  display: block;
+  position: absolute;
+  content: '';
+  width: 100px;
+  height: 2px;
+  z-index: 100;
+  border-bottom: red 1px;
 }
 .inset-auth-popup {
   @include center-align-col;
@@ -49,6 +76,7 @@
     }
 
     input {
+      position: relative;
       font:$font-regular;
       padding-left: 10px;
       width: 100%;

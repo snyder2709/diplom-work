@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Offer from '@/views/Offer.vue';
-import GameMain from '@/views/GameMain.vue'
+import GameMain from '@/views/GameMain.vue';
+import Profile from '@/views/Profile.vue';
+import NotFound from '@/views/NotFound.vue'
 
 
 const router = createRouter({
@@ -10,12 +12,25 @@ const router = createRouter({
     {
       path: '/',
       name: 'offer',
-      component:Offer
+      component: Offer
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile
     },
     {
       path: '/app/:id',
       name: 'app',
-      component:GameMain
+      component: GameMain
+    },
+    { path: '/app:afterUser(.*)', 
+    component: NotFound
+  },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
     },
   ]
 })

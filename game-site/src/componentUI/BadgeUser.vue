@@ -1,77 +1,50 @@
 <template>
-    <RouterLink :to="id" class="user-href">
-        <div class=" user-link">
-            <span>{{nickName}}</span>
-            <font-awesome-icon class="icon" icon="fa-solid fa-arrow-down" />
-            <div class="user-menu">
-                <ul>
-                    <li class="link">Мой профиль</li>
-                    <li class="link">Выйти</li>
-                </ul>
-            </div>
-        </div>
-        <div  class="img" :style="{backgroundImage:`url(${img})`}"></div>
-    </RouterLink>
+    <div class="user">
+        <span>{{ user.nickname }}</span>
+        <font-awesome-icon @click="toogleUserPopup" class="icon" icon="fa-solid fa-arrow-down" />
+        <img :src="user.avatar.medium" class="img-user" alt="#">
+    </div>
 </template>
 
-<script>
-import { RouterLink } from 'vue-router';
-export default {
-    props: {
-        img: {
-            type: String,
-        },
-        nickName: {
-            type: String,
-        },
-        id: {
-            type: String,
-        }
-    }
+<script setup>
+import { computed } from 'vue'
+import { useStore } from 'vuex';
+const { commit, getters } = useStore();
+const user = computed(() => getters['auth/getUser']);
+
+
+const toogleUserPopup = () => {
+    commit('popupState/toggleIsUserMenu');
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/variable.scss';
-.user-href {
+@import '@/assets/variable.scss';
+
+.user {
     display: flex;
-    margin: 0 1vw;
-    padding: 0 2vw;
-    .user-link{
-        position: relative;
-        display: flex;
-        align-items: center;
-        gap: 5%;
-        font-weight: 100;
-        .icon{
-            font-size: 0.7em;
-            color: white;
-        }
-        .user-menu{
-            color: white;
-            top: 90%;
-            font-size: 0.7em;
-            position: absolute;
-            background-color: #7763002b;
-            box-shadow: $shadow-gold-glass-inset, 0px 0px 10px -5px #776400;
-            li{
-                font-size: inherit;
-                font-weight: inherit;
-            }
-        }
-    }
-    span{
-        color: white;
+    width: 100%;
+    align-items: center;
+    gap: 15px;
+    justify-content: flex-end;
+
+    span {
+        color: rgba(255, 255, 255, 0.699);
+        font-size: 12px;
     }
 
-    .img {
-        width: 5vw;
-        height: 6vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        border-radius: 10%;
-        
+    .icon {
+        font-size: .9em;
+        color: white;
     }
+}
+
+.img-user {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    border-radius: 50%;
+    cursor: pointer;
+
 }
 </style>

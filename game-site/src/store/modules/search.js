@@ -22,12 +22,15 @@ export default {
         }
     },
     state:{
-        resultQuery:null
+        resultQuery:null,
+        popupResultList:false
     },
     getters: {
         getResultQuery(state) {
-
             return state.resultQuery
+        },
+        isPopupListQuery(state){
+            return state.popupResultList
         }
     },
 

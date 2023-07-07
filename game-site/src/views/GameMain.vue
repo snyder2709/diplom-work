@@ -2,8 +2,10 @@
     <GameBanner />
     <main class="wrapper">
         <div class="page">
+            <CardBanner :steamApp="steamApp" v-if="tablet || phone || laptop" />
             <div class="page-inset app-des">
                 <TitleSection  title="About Game"/>
+                <div class="line-title"></div>
                 <div class="wrapper-det-des">
                     <div class="detailed-description" v-html="steamApp.detailed_description"
                         :style="{ height: detailedHeight, display: displayDes }">
@@ -22,12 +24,13 @@
 <script setup>
 import Requirements from '@/components/game/Requirements.vue';
 import GameBanner from '@/components/GameBanner.vue';
-import TitleSection from '../componentUI/TitleSection.vue'
+import TitleSection from '../componentUI/TitleSection.vue';
+import CardBanner from '../components/card/CardBanner.vue';
+import { useBreakpoints } from '@vueuse/core';
 import { computed, onBeforeMount, onUnmounted, ref, } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 const route = useRoute()
-
 let detailedHeight = ref("300px");
 let displayDes = ref("block");
 const { getters, dispatch, commit } = useStore();
@@ -43,11 +46,23 @@ const getReadMore = () => {
 }
 
 onBeforeMount(() => {
-    dispatch('getAppId', route.params.id)
+     dispatch('getAppId', route.params.id)
+
 })
 onUnmounted(() => {
     commit('resetApp')
 })
+
+
+const breakpoints = useBreakpoints({
+    phone: 320,
+    tablet: 568,
+    laptop: 1024,
+    desktop: 1280,
+})
+const laptop = breakpoints.between('laptop', 'desktop')
+const tablet = breakpoints.between('tablet', 'laptop')
+const phone = breakpoints.between('phone', 'tablet')
 </script>
 
 <style lang="scss" scoped>
@@ -64,6 +79,9 @@ onUnmounted(() => {
     h2 {
         line-height: 2em;
         padding-left: 2em;
+    }
+    h3{
+        font-size: 3.8vmin;
     }
 }
 

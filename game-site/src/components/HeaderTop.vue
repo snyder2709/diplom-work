@@ -1,28 +1,31 @@
 <template>
   <header ref="header">
-    <div class="logo">
-      <!-- game-site -->
-    </div>
-    <HeaderLink />
-    <div class="error" v-show="error">
-
-    </div>
-    <nav class="auth-badge">
-      <div v-if="!isAuth">
-        <button class="link login" @click="handlePopup">Войти</button>
+    <div class="header-wrapper">
+      <div class="logo">
+        <!-- game-site -->
       </div>
-      <template v-if="isAuth">
-        <BadgeUser :id="getUser.steamID" :img="getUser.avatar.large" :nickName="getUser.nickname">
-        </BadgeUser>
-      </template>
-    </nav>
+      <HeaderLink />
+      <div class="error" v-show="error">
+  
+      </div>
+      <nav class="auth-badge">
+        <div v-if="!isAuth">
+          <button class="link login" @click="handlePopup">Войти</button>
+        </div>
+        <template v-else>
+          <BadgeUser >
+          </BadgeUser>
+        </template>
+      </nav>
+    </div>
   </header>
 </template>
 
 <script setup>
 import HeaderLink from '@/components/HeaderLink.vue';
+import BadgeUser from '../componentUI/BadgeUser.vue';
 import { useStore } from 'vuex';
-import { computed,  onMounted, ref, onBeforeUnmount, watchEffect } from 'vue';
+import { computed,  onMounted, ref, onBeforeUnmount, watchEffect, onBeforeMount } from 'vue';
 const { getters, dispatch, commit } = useStore();
 const isAuth = computed(() => getters['auth/getUser']);
 const header = ref(null);
@@ -41,13 +44,18 @@ const handleScroll = () => {
     header.value.style.transform = 'translateY(0)';
   } else {
     header.value.style.transform = `translateY(-${window.innerHeight * 0.5}px)`;
+    commit('popupState/hideIsUserMenu'); 
+    commit('search/upDateResultQuery', null);  
   }
 
   prevScrollPos = currentScrollPos;
 };
-onMounted(async () => {
+dispatch('auth/fetchUser')
+
+
+onMounted(() => {
   document.addEventListener('scroll', handleScroll)
-  await dispatch('auth/fetchUser')
+ 
 })
 onBeforeUnmount(() => {
   document.removeEventListener('scroll', handleScroll);
@@ -60,12 +68,18 @@ onBeforeUnmount(() => {
 header {
   position: fixed;
   display: flex;
-  justify-content: space-between;
-  z-index: 100;
+  z-index: 5;
   width: 100vw;
+  height: 60px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.801) 60%, transparent);
   transition: transform .4s ease-in-out;
-
+  .header-wrapper{
+    width: 100%;
+    display: inherit;
+    margin: 7px 1vw;
+    justify-content: space-between;
+    
+  }
   .logo {
     width: 20%;
   }
@@ -73,8 +87,8 @@ header {
   .auth-badge {
     display: flex;
     width: 20%;
+    height: 100%;
     flex-wrap: nowrap;
-    padding: 10px 20px;
     justify-content: flex-end;
   }
 

@@ -7,6 +7,7 @@ import headBannerState from './modules/headBannerState'
 import app from './modules/app'
 import search from './modules/search'
 import popupState from './modules/popupState'
+import profile from './modules/profile'
 
 export const store =  createStore({
   modules: {
@@ -17,6 +18,7 @@ export const store =  createStore({
     headBannerState,
     app,
     search,
-    popupState
+    popupState,
+    profile
   },
 })

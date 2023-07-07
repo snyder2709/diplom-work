@@ -7,10 +7,9 @@ export default {
     async logout() {
         try {
           const response = await axios.post(
-            'http://localhost:3000/auth/logout',
+            'http://localhost:3000/user/logout',
              null
-          );
-          console.log(response.data)    
+          );   
           Cookies.remove('steam-token');
         } catch (error) {
           console.error(error);

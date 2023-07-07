@@ -89,15 +89,6 @@ onBeforeUnmount(()=>{
 <style lang="scss" scoped>
 @import '@/assets/components-style/banner.scss';
 
-.head-link {
-    display: flex;
-    align-items: end;
-    justify-content: end;
-    width: 100%;
-    height: 100%;
-}
-.swiper-container{
-    height: 100%;
-}
+
 </style>
   

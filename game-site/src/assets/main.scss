@@ -1,5 +1,6 @@
 // @import './base.css';
 @import '@/assets/variable.scss';
+@import '@/assets/mixin.breakpoints.scss';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
 
@@ -58,9 +59,10 @@ li{
   list-style: none;
 }
 
-a{
+a label{
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
 }
 button{
   border: none;
@@ -70,7 +72,6 @@ body{
   background-color: $general-background-color;
   height: 100%;
   width: 100%;
-  
 }
 #app{
   width: 100%;
@@ -105,6 +106,7 @@ body{
   background-color: inherit;
   font: $font-regular;
   color: white;
+  
 
   &::before {
     content: "";
@@ -138,6 +140,7 @@ body{
 .page{
   width: 99vw;
   height: 100%;
+  padding-bottom: 50px;
   .page-inset{
     height: auto;
     width: 70%;
@@ -157,7 +160,7 @@ body{
 .overlay {
   position: absolute;
   height: 100%;
-  z-index: 3;
+  z-index: -1;
   width: 100%;
   display: grid;
   grid-template-columns:repeat(var(--columns),1fr);
@@ -191,6 +194,9 @@ section {
   width: 100%;
   height:80vh;
   border-radius: 3px;
+  @include lg-breakpoint {
+    height:65vh;
+}
   
 }
 
@@ -222,10 +228,16 @@ footer{
   display: flex;
   align-items: center;
   flex-direction: column;
-  
+  i, strong{
+    overflow: hidden;
+  }
+  strong{
+    display: inline;
+  }
   a{
     width: 100%;
     text-align: start;
+    @include center-align-row;
     font: $font-regular;
     color: rgb(59, 59, 124);
     text-decoration: underline;
@@ -241,9 +253,11 @@ footer{
     overflow: hidden;
     img{
       width: auto;
+      
     }
     a{
       width: 100%;
+      
       text-align: start;
       img{
         width: 100%;
@@ -253,6 +267,25 @@ footer{
    
   }
   
+}
+
+.line-title{
+  width: 100%;
+  height: 2px;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, $primary-gold-color 57%, rgba(255,255,255,0) 100%);
+}
+
+
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 

@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="nav-link">
       <div v-if="!inputState" v-for="link in linkRoutes" :key="link.title">
         <RouterLink :to="link.link" :class="link.class">{{ link.title }}</RouterLink>
       </div>
@@ -14,10 +14,7 @@ import { RouterLink } from 'vue-router'
 
 const inputState = ref(false);
 const linkRoutes = reactive([
-  { title: "Жанры", class: "link", link: "genre" },
-  { title: "Новинки", class: "link", link: "new" },
   { title: "Предложение", class: "link", link: "/" },
-  { title: "Новости", class: "link", link: "news" },
 ])
 
 const handleInputEvent = (state) => {
@@ -31,7 +28,7 @@ const handleInputEvent = (state) => {
 @import '../assets/main.scss';
 @import '@/assets/components-style/transition-class.scss';
 
-nav {
+.nav-link {
   @include center-align-row;
   position: relative;
   width: 60%;

@@ -6,13 +6,16 @@
         <div v-if="finalPrice" class="sub-card">
             
             <div class="des-card">
-                <PriceTag 
+                <PriceTag
                 :discounted="discounted" 
                 :discountPercent="discountPercent" 
                 :originalPrice="originalPrice"  
                 :finalPrice="finalPrice" 
                 />
             </div>
+        </div>
+        <div v-if="finalPrice === 0" class="free-tag ">
+                    FREE
         </div>
     </RouterLink>
 </template>
@@ -25,7 +28,6 @@ defineProps({
     name:            { type: String, },
     img:             { type: String, },
     id:              { type: Number },
-    priceOverview:   { type: Object },
     discounted:      { type: Boolean },
     discountPercent: { type: Number },
     originalPrice:   { type: Number },
@@ -36,7 +38,21 @@ defineProps({
 <style lang="scss" scoped>
 @import '@/assets/main.scss';
 @import '@/assets/variable.scss';
+@import '@/assets/mixin.breakpoints.scss';
 
+
+.free-tag {
+    width: 100%;
+    @include center-align-row;
+    justify-content: end;
+    padding: 0px 20px;
+    gap: 7px;
+    border-radius:  0px 4px 4px 0px;
+    text-shadow: 1px 1px 9px rgba(0, 0, 0, .6666666667);
+    background-color: rgb(2 2 2 / 53%);
+    font-weight: 300;
+    font-size: 1.3vmin;
+}
 .block-card {
     position: relative;
     display: grid;
@@ -46,6 +62,9 @@ defineProps({
     justify-items: center;
     border-radius: 8px;
     cursor: pointer;
+    @include md-breakpoint {
+        align-items: start;
+        }
  
 
     .gold-background-card {
@@ -65,7 +84,6 @@ defineProps({
         display: flex;
         justify-content: end;
         width: 98%;
-        // height: 100%;
         background-color: rgba(255, 255, 255, 0.068);
         backdrop-filter: blur(3px);
         border-radius: 7px;
@@ -84,6 +102,13 @@ defineProps({
         background-size: cover;
         background-repeat: no-repeat;
         margin-bottom: 4px;
+        @include md-breakpoint {
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            height: 13vh;
+            
+        }
     }
 }
 
@@ -102,6 +127,15 @@ defineProps({
 .grid-2fr {
     .app-img {
         height: 17vw;
+    }
+}
+.new-releases {
+    .block-card{
+        width: 20%;
+        padding: 12px;
+        .app-img {
+        height: 6vw;
+    }
     }
 }
 </style>

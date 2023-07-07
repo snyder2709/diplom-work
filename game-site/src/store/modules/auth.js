@@ -7,10 +7,9 @@ export default {
     async fetchUser(ctx) {
       try {
         const token = Cookies.get('steam-token');
-        console.log(token)
         if(typeof token !== "undefined"){
           const response = await axios.post(
-            'http://localhost:3000/auth/authorization',
+            'http://localhost:3000/user/authorization',
             null,
             {
               headers: {

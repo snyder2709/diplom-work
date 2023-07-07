@@ -1,6 +1,6 @@
 import { onMounted, onUnmounted ,ref} from 'vue';
 import anime from 'animejs';
-const useAnimatedCubes = (elementRef,startIndex) => {
+const useAnimatedCubes = (elementRef) => {
   let isComplite = ref(false)
   let columns = 0;
   let rows = 0;
@@ -25,15 +25,14 @@ const useAnimatedCubes = (elementRef,startIndex) => {
     createTiles(columns * rows);
   }
   const startAnim = () => {
-    if(!startIndex){
-      startIndex = elementRef.value.children.length
-    }
    
     anime({
       targets: '.tile',
+      loop: true,
+      endDelay: 2000,
       boxShadow: [
         {value: '0px 0px 0px 0px rgba(0, 0, 0, 0)', easing: 'easeOutSine', duration: 100},
-        {value: '5px 5px 10px rgb(255, 255, 255)', easing: 'easeInOutQuad', duration: 300},
+        {value: '0px 0px 10px 2px rgba(170, 153, 3, 0.631)', easing: 'easeInOutQuad', duration: 300},
         {value: '0px 0px 0px 0px rgba(0, 0, 0, 0)', easing: 'easeOutSine', duration: 100},
       ],
       begin: function(anim) {
@@ -42,7 +41,7 @@ const useAnimatedCubes = (elementRef,startIndex) => {
       complete: function(anim) {
         isComplite.value = true
       },
-      delay: anime.stagger(100, {grid: [columns,rows], from:startIndex },),
+      delay: anime.stagger(100, {grid: [columns,rows], from:'center' },),
     });
   };
 

@@ -1,6 +1,5 @@
 <template>
     <div class="search">
-
         <Transition name="slide">
             <div class="search-input" v-if="isInput">
                 <input ref="target" type="text" name="search" id="search" v-model="searchTherm" @blur="onInputBlur"
@@ -9,11 +8,6 @@
             </div>
         </Transition>
         <font-awesome-icon  v-if="!isInput" icon="fa-magnifying-glass" class="icon" @click="onOpenInput" currentColor="green" />
-        <div class="resultList" v-if="resultQuery && isInput">
-            <ul v-for="item in resultQuery" :key="item.appid">
-                <RouterLink :to="`/app/${item.appid.toString()}`" :key="item.appid">{{ item.name }}</RouterLink>
-            </ul>
-        </div>
     </div>
 </template>
 
@@ -25,27 +19,23 @@ import { useRouter, useRoute } from 'vue-router';
 import CloseButton from '@/componentUI/CloseButton.vue';
 
 const router = useRouter();
-const store = useStore();
+const { getters, dispatch, commit} = useStore();
 const searchTherm = ref('');
-const resultQuery = computed(() => store.getters['search/getResultQuery'])
 const debounced = useDebounce(searchTherm, 1500)
 const route = useRoute()
 const isInput = ref(false);
 
-const search = async (dataQuery) => {
-    await store.dispatch('search/searchReq', dataQuery);
+const search =  (dataQuery) => {
+    dispatch('search/searchReq', dataQuery);
 }
 
 const emitInput = defineEmits(['emitInputState'])
 
 const onOpenInput = () => {
     isInput.value = !isInput.value;
-    emitInput('emitInputState', isInput.value)
-    console.log(isInput.value)
-    console.log('click open')
+    emitInput('emitInputState', isInput.value) 
 }
 const onInputBlur = () => {
-    console.log('blur')
     isInput.value = false;
     emitInput('emitInputState', isInput.value)
 }
@@ -55,17 +45,15 @@ watchEffect(() => {
 });
 
 router.beforeEach((to, from, next) => {
-    store.commit('search/upDateResultQuery', null);
-    console.log("я перешел")
-    if (from.fullPath.includes('app')) {
-        if (route.params.id != to.params.id) next()
-        else next()
+    commit('search/upDateResultQuery', null);   
+    commit('popupState/hideIsUserMenu');
+    if (to.fullPath.includes('undefined')) {
+        console.log(to.fullPath)
+        next({ name: 'NotFound' }); 
     }
     else {
         next();
     }
-
-
 });
 
 
@@ -95,7 +83,7 @@ router.beforeEach((to, from, next) => {
         width: 65%;
         display: flex;
         position: absolute;
-        top: 10px;
+        top: 0px;
         right: 0;
         left: 15%;
         border: 1px solid;
@@ -131,13 +119,7 @@ router.beforeEach((to, from, next) => {
 
    
 
-    .resultList {
-        z-index: 100;
-        background-color: black;
-        padding: 10px;
-        top: 8vh;
-        color: red;
-    }
+  
 }
 
 .slide-enter-from {
